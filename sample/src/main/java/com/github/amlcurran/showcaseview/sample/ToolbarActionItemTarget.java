@@ -44,4 +44,9 @@ public class ToolbarActionItemTarget implements Target {
         return new ViewTarget(toolbar.findViewById(menuItemId)).getPoint();
     }
 
+    @Override
+    public Size getSize() {
+        return new ViewTarget(toolbar.findViewById(menuItemId)).getSize();
+    }
+
 }

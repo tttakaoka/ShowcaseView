@@ -69,6 +69,11 @@ public class ActionViewTarget implements Target {
         return internal.getPoint();
     }
 
+    @Override
+    public Size getSize() {
+        return null;
+    }
+
     public enum Type {
         SPINNER, HOME, TITLE, OVERFLOW, MEDIA_ROUTE_BUTTON
     }

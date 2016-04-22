@@ -37,4 +37,9 @@ public class PointTarget implements Target {
     public Point getPoint() {
         return mPoint;
     }
+
+    @Override
+    public Size getSize() {
+        return null;
+    }
 }

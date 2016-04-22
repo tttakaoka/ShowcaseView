@@ -75,6 +75,9 @@ public class ShowcaseView extends RelativeLayout
     private int showcaseY = -1;
     private float scaleMultiplier = 1f;
 
+    private int showcaseWidth = 0;
+    private int showcaseHeight = 0;
+
     // Touch items
     private boolean hasCustomClickListener = false;
     private boolean blockTouches = true;
@@ -121,11 +124,7 @@ public class ShowcaseView extends RelativeLayout
         fadeOutMillis = getResources().getInteger(android.R.integer.config_mediumAnimTime);
 
         mEndButton = (Button) LayoutInflater.from(context).inflate(R.layout.showcase_button, null);
-        if (newStyle) {
-            showcaseDrawer = new NewShowcaseDrawer(getResources(), context.getTheme());
-        } else {
-            showcaseDrawer = new StandardShowcaseDrawer(getResources(), context.getTheme());
-        }
+        showcaseDrawer = new MaterialShowcaseDrawer(getResources());
         textDrawer = new TextDrawer(getResources(), getContext());
 
         updateStyle(styled, false);
@@ -173,6 +172,21 @@ public class ShowcaseView extends RelativeLayout
         invalidate();
     }
 
+    void setShowcaseSize(Target.Size size) {
+        setShowcaseSize(size.getWidth(), size.getHeight());
+    }
+
+    void setShowcaseSize(int width, int height) {
+        if (shotStateStore.hasShot()) {
+            return;
+        }
+        showcaseWidth = width;
+        showcaseHeight = height;
+
+        recalculateText();
+        invalidate();
+    }
+
     public void setTarget(final Target target) {
         setShowcase(target, false);
     }
@@ -189,12 +203,14 @@ public class ShowcaseView extends RelativeLayout
                     }
 
                     Point targetPoint = target.getPoint();
-                    if (targetPoint != null) {
+                    Target.Size targetSize = target.getSize();
+                    if (targetPoint != null && targetSize != null) {
                         hasNoTarget = false;
                         if (animate) {
                             animationFactory.animateTargetToPoint(ShowcaseView.this, targetPoint);
                         } else {
                             setShowcasePosition(targetPoint);
+                            setShowcaseSize(targetSize);
                         }
                     } else {
                         hasNoTarget = true;
@@ -298,7 +314,7 @@ public class ShowcaseView extends RelativeLayout
 
         // Draw the showcase drawable
         if (!hasNoTarget) {
-            showcaseDrawer.drawShowcase(bitmapBuffer, showcaseX, showcaseY, scaleMultiplier);
+            showcaseDrawer.drawShowcase(bitmapBuffer, showcaseX, showcaseY, showcaseWidth, showcaseHeight);
             showcaseDrawer.drawToCanvas(canvas, bitmapBuffer);
         }
 
@@ -442,11 +458,6 @@ public class ShowcaseView extends RelativeLayout
             this(activity, false);
         }
 
-        /**
-         * @param useNewStyle should use "new style" showcase (see {@link #withNewStyleShowcase()}
-         * @deprecated use {@link #withHoloShowcase()}, {@link #withNewStyleShowcase()}, or
-         * {@link #setShowcaseDrawer(ShowcaseDrawer)}
-         */
         @Deprecated
         public Builder(Activity activity, boolean useNewStyle) {
             this.activity = activity;
@@ -464,22 +475,6 @@ public class ShowcaseView extends RelativeLayout
         public ShowcaseView build() {
             insertShowcaseView(showcaseView, parent, parentIndex);
             return showcaseView;
-        }
-
-        /**
-         * Draw a holo-style showcase. This is the default.<br/>
-         * <img alt="Holo showcase example" src="../../../../../../../../example2.png" />
-         */
-        public Builder withHoloShowcase() {
-            return setShowcaseDrawer(new StandardShowcaseDrawer(activity.getResources(), activity.getTheme()));
-        }
-
-        /**
-         * Draw a new-style showcase.<br/>
-         * <img alt="Holo showcase example" src="../../../../../../../../example.png" />
-         */
-        public Builder withNewStyleShowcase() {
-            return setShowcaseDrawer(new NewShowcaseDrawer(activity.getResources(), activity.getTheme()));
         }
 
         /**

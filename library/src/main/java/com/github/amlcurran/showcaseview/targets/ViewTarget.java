@@ -43,4 +43,9 @@ public class ViewTarget implements Target {
         int y = location[1] + mView.getHeight() / 2;
         return new Point(x, y);
     }
+
+    @Override
+    public Size getSize() {
+        return new Size(mView.getWidth(), mView.getHeight());
+    }
 }

@@ -44,6 +44,11 @@ public class ActionItemTarget implements Target {
         return new ViewTarget(mActionBarWrapper.getActionItem(mItemId)).getPoint();
     }
 
+    @Override
+    public Size getSize() {
+        return new ViewTarget(mActionBarWrapper.getActionItem(mItemId)).getSize();
+    }
+
     protected void setUp() {
         Reflector reflector = ReflectorFactory.getReflectorForActivity(mActivity);
         ViewParent p = reflector.getActionBarView(); //ActionBarView

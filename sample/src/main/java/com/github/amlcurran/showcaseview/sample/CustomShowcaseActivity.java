@@ -59,7 +59,7 @@ public class CustomShowcaseActivity extends Activity {
         }
 
         @Override
-        public void drawShowcase(Bitmap buffer, float x, float y, float scaleMultiplier) {
+        public void drawShowcase(Bitmap buffer, float x, float y, float width, float height) {
             Canvas bufferCanvas = new Canvas(buffer);
             renderRect.left = x - width / 2f;
             renderRect.right = x + width / 2f;

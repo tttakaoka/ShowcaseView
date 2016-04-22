@@ -24,7 +24,32 @@ public interface Target {
         public Point getPoint() {
             return new Point(1000000, 1000000);
         }
+
+        @Override
+        public Size getSize() {
+            return new Size(0, 0);
+        }
     };
 
     Point getPoint();
+
+    Size getSize();
+
+    class Size {
+        private int width;
+        private int height;
+
+        public Size(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
+
+        public int getWidth() {
+            return width;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+    }
 }
