@@ -18,7 +18,7 @@ task createGithubRelease(type: Exec) {
             tag_name: "$versionName",
             name    : "$versionName",
             draft   : true])
-    commandLine "curl", "--data", jsonData, "-u", "amlcurran:" + System.getenv('GITHUB_TOKEN'), "https://api.github.com/repos/amlcurran/ShowcaseView/releases"
+    commandLine "curl", "--data", jsonData, "-u", "tttakaoka:" + System.getenv('GITHUB_TOKEN'), "https://api.github.com/repos/tttakaoka/ShowcaseView/releases"
 }
 
 
