@@ -55,5 +55,3 @@ def parseVersionName() {
         return "0"
     }
 }
-
-apply from: 'gradle-mvn-push.gradle'
